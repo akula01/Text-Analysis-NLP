@@ -3,22 +3,16 @@ from sumy.parsers.plaintext import PlaintextParser
 from sumy.summarizers.lex_rank import LexRankSummarizer
 from sumy.summarizers.luhn import LuhnSummarizer
 from sumy.summarizers.lsa import LsaSummarizer
-from utils.data_util import *
+#from utils.data_util import *
 import re
 
-pdf_file = 'C:/Users/ra407452/OneDrive - Knights - University of Central Florida/Doctoral Research/Information Diffusion/Discussion/link-pred.pdf'
 
-
-text = get_text_from_pdf(pdf_file)
-text_file = open('temp.txt', 'w')
-text_file.write(text)
-text_file.close()
-
-file = 'temp.txt'
+file = 'sample_text_1.txt'
 parser = PlaintextParser.from_file(file, Tokenizer("english"))
 summarizer = LexRankSummarizer()
-summary = summarizer(parser.document, 5) #Summarize the document with 5 sentences
-
+summary = summarizer(parser.document, 10) #Summarize the document with 10 sentences
+#LexRank is an unsupervised approach. It finds the relative importance of all words in a document and selects 
+#the sentences which contain the most of those high-scoring words.
 for sentence in summary:
     print(sentence)
 
@@ -28,6 +22,7 @@ summarizer_1 = LuhnSummarizer()
 summary_1 = summarizer_1(parser.document, 5)
 for sentence in summary_1:
     print(sentence)
+#scores sentences based on frequency of the most important words.
 
 print('--------------')
 
@@ -35,3 +30,4 @@ summarizer_2 = LsaSummarizer()
 summary_2 = summarizer_2(parser.document, 5)
 for sentence in summary_2:
     print(sentence)
+#(Latent semantic analysis)

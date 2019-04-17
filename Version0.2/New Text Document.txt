@@ -1,0 +1,27 @@
+First of all the project or the code is for text summarization.
+It gives us a small summary of a whole article or script which includes all the
+important points from the script.
+
+We can perform text summarization in two ways.
+1] Extraction based summarization
+
+-The extractive text summarization technique involves pulling keyphrases from
+the source document and combining them to make a summary.
+
+-In this project Lexrank using summy,LSA(latent sqmantic analysis) using summy
+ and Luhn algorithm using summy are used along with Textrank method using
+ gensim is used for extraction based summarization.
+
+2] Abstraction based summarization 
+
+-The abstraction technique entails paraphrasing and shortening parts of the 
+ source document. When abstraction is applied for text summarization in deep 
+ learning problems, it can overcome the grammar inconsistencies of the 
+ extractive method.
+
+-The abstractive text summarization algorithms create new phrases and 
+ sentences that relay the most useful information from the original 
+ text just like humans do.
+
+-In this project the Textsum files which contains the neural network
+ models and seq2seq models are used to create Abstraction based summarization.
