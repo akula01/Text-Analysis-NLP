@@ -31,8 +31,9 @@ def test_summarization():
     summary = summarize_text(text)
     print(summary)
 #when i run the code it gives ValueError: You are trying to load a weight file containing 5 layers into a model with 4 layers.
-#As I just loaded the pre-trained files without training on my laptop as it is not gpu enabled
+#As I just loaded the pre-trained files without training on my laptop as it is not gpu enabled.
 #The error is due to the inputshape parameter not given at the dense layer in RecursiveRnn1 class.
+#We input a sample_text.txt file and a headline is generated as an output.
 
 if __name__ == '__main__':
     test_summarization()
