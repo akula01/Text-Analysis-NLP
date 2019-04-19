@@ -25,6 +25,10 @@ class OneShotRNN(object):
     must choose the words and their order.
     """
 
+    """
+    The main idea is all the embedding and lstms is done on the source doc and an output 
+    sequence is created.
+    """    
     def __init__(self, config):
         self.num_input_tokens = config['num_input_tokens']
         self.max_input_seq_length = config['max_input_seq_length']
@@ -47,7 +51,10 @@ class OneShotRNN(object):
         # encoder input model
         model = Sequential()
         model.add(Embedding(output_dim=128, input_dim=self.num_input_tokens, input_length=self.max_input_seq_length))
-
+        """ here embedding is done the ouput_dim=128 is the vector space in which words will be embedded
+        input_dim gives the size of the vocab data and input_length is the max size of our document.
+        
+        """
         # encoder model
         model.add(LSTM(128))
         model.add(RepeatVector(self.max_target_seq_length))
@@ -58,11 +65,10 @@ class OneShotRNN(object):
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
         self.model = model
-
+#A constructor is made so when this class is called a model is prepared and compiled.
     def load_weights(self, weight_file_path):
         if os.path.exists(weight_file_path):
             self.model.load_weights(weight_file_path)
-
     def transform_input_text(self, texts):
         temp = []
         for line in texts:
@@ -216,6 +222,11 @@ class RecursiveRNN1(object):
         print('num_input_tokens', self.num_input_tokens)
         print('num_target_tokens', self.num_target_tokens)
 
+        """
+        two inputs are taken into consideration inputs1 and inputs2 when training the model
+        one from the source document and the other from the summary made from previous inputs
+        
+        """
         inputs1 = Input(shape=(self.max_input_seq_length,))
         am1 = Embedding(self.num_input_tokens, 128)(inputs1)
         am2 = LSTM(128)(am1)
@@ -421,6 +432,8 @@ class RecursiveRNN2(object):
         inputs1 = Input(shape=(self.max_input_seq_length,))
         article1 = Embedding(self.num_input_tokens, 128)(inputs1)
         article2 = Dropout(0.3)(article1)
+        #a fraction of dropout is applied to the input (0.3) at each update to prevent overfitting. 
+        
 
         # summary input model
         inputs2 = Input(shape=(min(self.num_target_tokens, RecursiveRNN2.MAX_DECODER_SEQ_LENGTH), ))
@@ -428,7 +441,9 @@ class RecursiveRNN2(object):
         summ2 = Dropout(0.3)(summ1)
         summ3 = LSTM(128)(summ2)
         summ4 = RepeatVector(self.max_input_seq_length)(summ3)
+        #Repeats the input by n times.
 
+        
         # decoder model
         decoder1 = concatenate([article2, summ4])
         decoder2 = LSTM(128)(decoder1)
