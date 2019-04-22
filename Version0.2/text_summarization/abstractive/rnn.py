@@ -227,17 +227,21 @@ class RecursiveRNN1(object):
         one from the source document and the other from the summary made from previous inputs
         
         """
+        #source text input model
         inputs1 = Input(shape=(self.max_input_seq_length,))
         am1 = Embedding(self.num_input_tokens, 128)(inputs1)
         am2 = LSTM(128)(am1)
 
+        #summary input model
         inputs2 = Input(shape=(self.max_target_seq_length,))
         sm1 = Embedding(self.num_target_tokens, 128)(inputs2)
         sm2 = LSTM(128)(sm1)
 
+        #decoder output model
         decoder1 = concatenate([am2, sm2])
         outputs = Dense(self.num_target_tokens, activation='softmax')(decoder1)
 
+        #Tie it together [article, summary] [word]
         model = Model(inputs=[inputs1, inputs2], outputs=outputs)
 
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
